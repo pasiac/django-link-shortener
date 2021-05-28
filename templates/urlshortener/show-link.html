@@ -5,6 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-    Shortened url: {{ shortened_link }}
+    Shortened url: {{ request.get_host }}/{{ shortened_link }}
 </body>
 </html>
