@@ -11,7 +11,8 @@ class LinkCreateView(CreateView):
         try:
             self.object = form.save()
         except UpdateProhibitedException:
-            return render(self.request, 'urlshortener/show-link.html', {'shortened_link': "Updating fields is prohibited."})
+            return render(self.request, 'urlshortener/show-link.html',
+                          {'shortened_link': "Updating fields is prohibited."})
         return render(self.request, 'urlshortener/show-link.html', {'shortened_link': self.object.short_path})
 
     def form_invalid(self, form):
