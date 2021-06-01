@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, CreateView, RedirectView
+from django.views.generic import CreateView, RedirectView
 from urlshortener.models import Link
 
 
@@ -16,7 +16,7 @@ class LinkCreateView(CreateView):
         if link := self.get_link_if_already_exists(full_path):
             return render(self.request, 'urlshortener/show-link.html', {'shortened_link': link.short_path})
         else:
-            super(LinkCreateView, self).form_invalid(form)
+            return super(LinkCreateView, self).form_invalid(form)
 
     def get_link_if_already_exists(self, full_path):
         link = self.model.objects.filter(full_path=full_path).first()
