@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, RedirectView
-from urlshortener.models import Link
+from urlshortener.models import Link, UpdateProhibitedException
 
 
 class LinkCreateView(CreateView):
@@ -8,7 +8,10 @@ class LinkCreateView(CreateView):
     fields = ("full_path",)
 
     def form_valid(self, form):
-        self.object = form.save()
+        try:
+            self.object = form.save()
+        except UpdateProhibitedException:
+            return render(self.request, 'urlshortener/show-link.html', {'shortened_link': "Updating fields is prohibited."})
         return render(self.request, 'urlshortener/show-link.html', {'shortened_link': self.object.short_path})
 
     def form_invalid(self, form):
